@@ -44,7 +44,11 @@
             
             if ("Load".equals(action)) {
             	String operationName = request.getParameter("operationName");
-            	soapReq = SoapUIUtil.getDummyRequest(wsdlLocation, operationName);
+            	try {
+            		soapReq = SoapUIUtil.getDummyRequest(wsdlLocation, operationName);
+            	} catch (Exception e) {
+            		soapReq = "Unable to generate request soap";
+            	}
             }
             else if ("Test".equals(action)) {
             	

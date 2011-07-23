@@ -150,7 +150,6 @@
                     		}, false); 
                     	</script>
                     	<%
-                    	//message = StringUtil.failureMsg("Domain merge cancelled");
                     } else {
                     	domainName = domain.getName();
                     	session.setAttribute("stub.domainName", domainName);

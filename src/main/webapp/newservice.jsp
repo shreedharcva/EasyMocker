@@ -51,6 +51,24 @@
             	serviceName = request.getParameter("serviceName");
             	wsdlUrl = request.getParameter("wsdlUrl");
             	
+            	String nameType = request.getParameter("nameType");
+            	
+            	if (nameType != null && nameType.equals("generate")) {
+
+            		try {
+            			serviceName = SoapUIUtil.getServiceName(wsdlUrl);
+            		} catch (Exception e) {
+
+            		}
+            		
+            		if (serviceName == null) {
+            			try {
+            				serviceName = wsdlUrl.substring(wsdlUrl.lastIndexOf('/')+1, wsdlUrl.length() - 5);
+            			} catch (Exception e1) { e1.printStackTrace(); }
+            		}
+            	}
+            	
+            	
             	if (!StringUtil.isValid(wsdlUrl)) {
            			message = StringUtil.failureMsg("Provide Valid URL");
            			failed = true;

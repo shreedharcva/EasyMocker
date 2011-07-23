@@ -64,6 +64,11 @@ String operationName = request.getParameter("operationName");
 	    </tr>
 	    <tr>
 	        <td align="left">
+	            <b><a href="files.jsp" <%="/files.jsp".equals(path)?"class='active'":"" %>>File Repository</a></b>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td align="left">
 	            <b><a href="log.jsp" <%="/log.jsp".equals(path)?"class='active'":"" %>>View Logs</a></b>
 	        </td>
 	    </tr>
