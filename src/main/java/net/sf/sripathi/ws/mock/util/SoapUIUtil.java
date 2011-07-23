@@ -43,7 +43,7 @@ import com.eviware.soapui.model.iface.Attachment;
 import com.eviware.soapui.model.iface.MessagePart.FaultPart;
 import com.eviware.soapui.model.testsuite.AssertionError;
 import com.eviware.soapui.settings.WsdlSettings;
-import com.eviware.soapui.support.types.StringToStringMap;
+import com.eviware.soapui.support.types.StringToStringsMap;
 
 /**
  * Utility class to access soapUI lib.
@@ -403,10 +403,10 @@ public class SoapUIUtil {
 		public String getRequestContent() {
 			return null;
 		}
-		public StringToStringMap getRequestHeaders() {
+		public StringToStringsMap getRequestHeaders() {
 			return null;
 		}
-		public StringToStringMap getResponseHeaders() {
+		public StringToStringsMap getResponseHeaders() {
 			return null;
 		}
 		public long getTimeTaken() {

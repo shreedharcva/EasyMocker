@@ -49,7 +49,7 @@ public class MockServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		workingDirectory = getServletContext().getRealPath("/workspace");
+		workingDirectory = getServletContext().getRealPath("/workspace").replace('\\', '/');
 		DomainFactory.getInstance().setWorkingDir(workingDirectory);
 		
 		try {

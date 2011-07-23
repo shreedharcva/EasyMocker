@@ -28,6 +28,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import net.sf.sripathi.ws.mock.util.Folder;
+
 /**
  * Factory class to maintain domains.
  * 
@@ -165,6 +167,17 @@ public class DomainFactory {
 		}
 		
 		return domainNames;
+	}
+	
+	/**
+	 * Gets the domain specific folder.
+	 * 
+	 * @param work
+	 * @return
+	 */
+	public Folder getDomainFileFolder(Domain domain) {
+		
+		return Folder.getInstance(workingDir + "/" + domain.getName());
 	}
 	/**
 	 * Exports the domain into XML file.
