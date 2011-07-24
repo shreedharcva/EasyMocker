@@ -343,14 +343,14 @@
 											<div id="uploadFileDiv" style="display:block; width: 100%">
 
 								       			<form name="folderCreateForm" action="files.jsp">
-													<font face="arial" size="2">New Folder Name </font>
+													<font face="arial" size="2">Folder Name </font>
 													<input name="newFolderName" />
 													<input type="hidden" name="currentFolder" value='<%=folderName %>' />
 													<input type="submit" name="action" value="Create New Folder" />
 												</form>
 											
 					        					<form name="fileUploadForm" action="files.jsp?action=uploadFile" method="post" ENCTYPE="multipart/form-data">
-							                		<font face="arial" size="2">WSDL/XSD/Zip/Jar </font>
+							                		<font face="arial" size="2">File (wsdl/xsd/zip/jar) </font>
 						                        	<input type="file" name="fileName" onchange="javascript:checkFileType()"/>&nbsp;
 						                        	<input type="hidden" name="currentFolder" value='<%=folderName %>' />
 							                        <input type="submit" name="submitInput" value="Upload" disabled="disabled" />
