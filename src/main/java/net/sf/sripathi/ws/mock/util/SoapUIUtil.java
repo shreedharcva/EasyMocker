@@ -73,13 +73,14 @@ public class SoapUIUtil {
 		
 			try {
 				if (wsdlUrl.substring(0, 4).equalsIgnoreCase("http")) {
-					URL url = new URL(wsdlUrl);
+					URL url = new URL(wsdlUrl.replaceAll(" ", "%20"));
 					URLConnection conn = url.openConnection();  
 					conn.setConnectTimeout(5000);  
 					conn.setReadTimeout(5000);  
 					conn.getInputStream().close();
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new MockException("Unable to import WSDL from " + wsdlUrl);
 			}
 			
@@ -98,7 +99,7 @@ public class SoapUIUtil {
 			
 			WsdlProject soapUIProject = new WsdlProject();
 			
-			WsdlInterface[] intrs = WsdlInterfaceFactory.importWsdl(soapUIProject, wsdlUrl, true);
+			WsdlInterface[] intrs = WsdlInterfaceFactory.importWsdl(soapUIProject, wsdlUrl.replaceAll(" ", "%20"), true);
 			
 			if (intrs == null || intrs.length == 0 || intrs.length >1) 
 				throw new MockException("Not supported at the moment");

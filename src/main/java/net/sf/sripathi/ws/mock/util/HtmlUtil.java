@@ -45,7 +45,7 @@ public class HtmlUtil {
 		html.append("'><a href='javascript:onClickFolder(\"");
 		html.append(folder.getPath());
 		html.append("\")'>");
-		html.append("<img src='img/folder.gif' />&nbsp;");
+		html.append("<img src='img/folder.gif' border='0' />&nbsp;");
 		html.append(name);
 		html.append("</a>");
 		
@@ -77,11 +77,11 @@ public class HtmlUtil {
 				html.append("\")'>");
 				
 				if (file.toLowerCase().endsWith("wsdl"))
-					html.append("<img src='img/wsdl.gif' />&nbsp;");
+					html.append("<img src='img/wsdl.gif' border='0' />&nbsp;");
 				else if (file.toLowerCase().endsWith("xsd"))
-					html.append("<img src='img/xsd.gif' />&nbsp;");
+					html.append("<img src='img/xsd.gif' border='0' />&nbsp;");
 				else 
-					html.append("<img src='img/file.gif' />&nbsp;");
+					html.append("<img src='img/file.gif' border='0' />&nbsp;");
 				
 				html.append(file);
 				html.append("</a>");
