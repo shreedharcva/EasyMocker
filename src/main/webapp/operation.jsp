@@ -11,8 +11,6 @@
  *  -->
 
 <%@page import="java.net.URLEncoder"%>
-<%@page import="java.net.URL"%>
-<%@page import="java.net.URLConnection"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="net.sf.sripathi.ws.mock.Scenario"%>
 <%@page import="net.sf.sripathi.ws.mock.Operation"%>
@@ -80,14 +78,7 @@
             		else {
             			try {
             				if (StringUtil.isValid(service.getWsdlUrl())) {
-            					//Check if the URL is availble
-            					if (service.getWsdlUrl().substring(0, 4).equals("http")) {
-            						URL url = new URL(service.getWsdlUrl());
-            						URLConnection conn = url.openConnection();  
-									conn.setConnectTimeout(5000);  
-									conn.setReadTimeout(5000);  
-									conn.getInputStream().close();
-            					}
+
             					dummyResponse = SoapUIUtil.getDummyResponse(service.getWsdlUrl(), operationName);
             					faultRespMap = SoapUIUtil.getDummyFaults(service.getWsdlUrl(), operationName);
             					requestElements = SoapUIUtil.getRequestElements(service.getWsdlUrl(), operationName);

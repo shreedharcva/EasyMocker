@@ -10,8 +10,6 @@
  *  See the GNU Lesser General Public License for more details at gnu.org.
  *  -->
 
-<%@page import="java.net.URLConnection"%>
-<%@page import="java.net.URL"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="net.sf.sripathi.ws.mock.Scenario"%>
 <%@page import="net.sf.sripathi.ws.mock.Operation"%>
@@ -300,7 +298,7 @@
                     	</tr>
                         <tr>
                             <td>
-                            	<font face="arial" size="2">Here you can create a new mock service. <br><br>You can choose to import the service from WSDL, in this case a valid WSDL URL is required.<br>
+                            	<font face="arial" size="2">Here you can create a new mock service. <br><br>You can choose to import the service from WSDL, in this case a valid WSDL URL is required. If you want to use a local WSDL file, upload the file first to <a href="files.jsp">File Repository</a><br>
                             	<br>Ex: http://localhost:8080/services/GetSomething.wsdl<br>or<br>http://localhost:8080/GetSomethingService?wsdl
                             	<br><br>
                             	</font>

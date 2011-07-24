@@ -325,10 +325,10 @@
                     	</tr>
 		                <tr>
 		                	<td>
-		                	<table cellpadding="0px" cellspacing="2px">
+		                	<table cellpadding="0px" cellspacing="0px">
 		                		<tr>
 				                    <td valign="top">
-										<div style="overflow:auto; overflow-x:scroll; overflow-y:scroll; width:250px; height: 600px; ">
+										<div style="overflow:auto; overflow-x:auto; overflow-y:auto; width:250px; height: 600px; ">
 											<pre style="padding: 0px; margin: 0px; "><%=HtmlUtil.getFolderTree(rootFolder) %></pre>
 										</div>
 									</td>
