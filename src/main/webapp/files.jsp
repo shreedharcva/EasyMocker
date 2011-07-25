@@ -108,6 +108,7 @@
 		                    	</script>
 		                    	<%
 	               	 		}
+	               	 		try {zip.close();}catch (Exception e) {}
 	               	 	}
                 	}
                 }
@@ -141,6 +142,7 @@
         		File file = new File(zipFileName);
         		ZipFile zip = new ZipFile(file);
         		folder.createFilesAndFolder(zip);
+        		try {zip.close();}catch (Exception e) {}
         	}  else if ("deleteFile".equals(action)) {
         		fileName = request.getParameter("fileName");
         		folderName = request.getParameter("folderName");

@@ -14,6 +14,7 @@ package net.sf.sripathi.ws.mock.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -213,11 +214,17 @@ public class Folder implements Comparable<Folder> {
 			}
 			
 			File file = parent.createFile(split[split.length-1]);
+			FileOutputStream fos = null;
+			InputStream zipStream = null;
 			try {
-				FileOutputStream fos = new FileOutputStream(file);
-				fos.write(IOUtils.toByteArray(zip.getInputStream(zip.getEntry(fileStr))));
+				fos = new FileOutputStream(file);
+				zipStream = zip.getInputStream(zip.getEntry(fileStr));
+				fos.write(IOUtils.toByteArray(zipStream));
 			} catch (Exception e) {
 				throw new MockException("Unable to create file - " + fileStr);
+			} finally {
+				try {fos.close();}catch (Exception e) {}
+				try {zipStream.close();}catch (Exception e) {}
 			}
 		}
 	}
