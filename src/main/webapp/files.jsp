@@ -11,6 +11,9 @@
  *  -->
          
                                              
+<%@page import="java.net.URL"%>
+<%@page import="java.net.URI"%>
+<%@page import="org.apache.commons.io.IOUtils"%>
 <%@page import="net.sf.sripathi.ws.mock.util.FileUtil"%>
 <%@page import="net.sf.sripathi.ws.mock.util.SoapUIUtil"%>
 <%@page import="java.util.Set"%>
@@ -32,6 +35,9 @@
         <title>Web Service Mocker</title>
         <link rel="stylesheet" type="text/css" href="mktree.css" />
         <SCRIPT SRC="mktree.js" LANGUAGE="JavaScript"></SCRIPT> 
+        
+        <link href="prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="prettify.js"></script>
         
         <%
             String message = null;
@@ -98,9 +104,6 @@
 		                            	if (answer) {
 		                            		window.location = "files.jsp?action=override&zipFileName=<%=zipFileName %>&folderName=<%=zipFolderName %>"
 		                            	}
-		                            	else {
-		                            		alert("abort");
-		                            	}
 		                    		}, false); 
 		                    	</script>
 		                    	<%
@@ -148,7 +151,7 @@
         			rootFolder = DomainFactory.getInstance().getDomainFileFolder(domain);
         		}
         		else
-       				message = StringUtil.failureMsg("Filed to delete the file");
+       				message = StringUtil.failureMsg("Failed to delete the file");
         	}  else if ("deleteFolder".equals(action)) {
         		folderName = request.getParameter("folderName");
         		boolean status = FileUtil.deleteFolder(folderName);
@@ -158,7 +161,16 @@
         			folderName = folderName.substring(0, folderName.lastIndexOf("/"));
         		}
         		else
-       				message = StringUtil.failureMsg("Filed to delete the folder");
+       				message = StringUtil.failureMsg("Failed to delete the folder");
+        	} else if ("downloadFile".equals(action)) {
+        		
+				String url = request.getParameter("url");
+        		response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition",
+                    "attachment;filename=\"" + url.substring(url.lastIndexOf("/")+1, url.length()) + "\"");
+                out.clear();
+                out.write(IOUtils.toString(new FileReader(new File(url))));
+                return;
         	}
         %>
         <script type="text/javascript">
@@ -218,7 +230,11 @@
         		expandToItem('folderTree', '<%=folderName + "/" +  fileName %>');
         		<% if (fileName.toLowerCase().endsWith(".wsdl") || fileName.toLowerCase().endsWith(".xsd")) { %>
         		loadFileContent('<%=folderName + "/" +  fileName %>')
-        		<% }} else { %>
+        		<% }} else if ("deleteFile".equals(action)){ %>
+        		var name = new String('<%=fileName!=null?fileName.substring(0, fileName.lastIndexOf("/")):folderName %>');
+        		addPathDetail(name);
+        		expandToItem('folderTree', '<%=folderName %>');
+        		<% } else { %>
         		var name = new String('<%=folderName %>');
         		addPathDetail(name);
         		expandToItem('folderTree', '<%=folderName %>');
@@ -258,14 +274,19 @@
             	xmlhttp.onreadystatechange=function()
               	{
             		respSpan = document.getElementById("fileContentDiv");
-            		document.getElementById("fileContentDiv1").style.display = 'block';
               		if (xmlhttp.readyState==4 && xmlhttp.status==200)
                 	{
               			var str = "";
               			if (name.substring(name.length-5, name.length).toLowerCase() == ".wsdl") {
               				str = "<input type='button' value='Create Mock' onclick='javascript:createMock(\"" + url + "\")' />";
               			}
-             			respSpan.innerHTML=str + "<input type='button' value='Delete File' onclick='javascript:deleteFile(\"" + name1 + "\")' /><br><textarea rows='24' cols='85' wrap='off'>"+xmlhttp.responseText;+"</textarea>";
+             			
+              			var resp = xmlhttp.responseText;
+                        resp = resp.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        respSpan.innerHTML=str + "<input type='button' value='Download File' onclick='javascript:downloadFile(\"" + name1 + "\")' \><input type='button' value='Delete File' onclick='javascript:deleteFile(\"" + encodeURI(name1) + "\")' /><br><pre class='prettyprint lang-xml' style='overflow:auto; overflow-x:auto; overflow-y:auto; width: 740px; height: 396px;'>" + resp + "</pre>";
+                        
+                        prettyPrint();
+
                 	}
               		else {
               			respSpan.innerHTML="<img src='img/ajax-loader.gif' height='12' width='12'/>";
@@ -300,6 +321,9 @@
             		window.location = "files.jsp?action=deleteFolder&folderName=" + name
             	}
             }
+            function downloadFile(url) {
+            	window.location = "files.jsp?action=downloadFile&url=" + url
+            }
         </script>        
     </head>
     <body onload="javascript:onPageLoad()">
@@ -325,10 +349,10 @@
                     	</tr>
 		                <tr>
 		                	<td>
-		                	<table cellpadding="0px" cellspacing="0px">
+		                	<table cellpadding="2px" cellspacing="0px">
 		                		<tr>
 				                    <td valign="top">
-										<div style="overflow:auto; overflow-x:auto; overflow-y:auto; width:250px; height: 600px; ">
+										<div style="overflow:auto; overflow-x:auto; overflow-y:auto; width:250px; height: 620px; ">
 											<pre style="padding: 0px; margin: 0px; "><%=HtmlUtil.getFolderTree(rootFolder) %></pre>
 										</div>
 									</td>
@@ -340,7 +364,7 @@
 									
 										<fieldset style="text-align:left;">
 											<legend><b><a href="javascript:showContent('uploadFileDiv')">Upload File</a></b></legend>
-											<div id="uploadFileDiv" style="display:block; width: 100%">
+											<div id="uploadFileDiv" style="display:block; width: 100%; ">
 
 								       			<form name="folderCreateForm" action="files.jsp">
 													<font face="arial" size="2">Folder Name </font>
@@ -351,7 +375,7 @@
 											
 					        					<form name="fileUploadForm" action="files.jsp?action=uploadFile" method="post" ENCTYPE="multipart/form-data">
 							                		<font face="arial" size="2">File (wsdl/xsd/zip/jar) </font>
-						                        	<input type="file" name="fileName" onchange="javascript:checkFileType()"/>&nbsp;
+						                        	<input type="file" name="fileName" onchange="javascript:checkFileType()"/>
 						                        	<input type="hidden" name="currentFolder" value='<%=folderName %>' />
 							                        <input type="submit" name="submitInput" value="Upload" disabled="disabled" />
 								        		</form>
@@ -359,12 +383,7 @@
 											</div>
 										</fieldset>
 										<br>
-										<div id="fileContentDiv1" style="display: none">
-										<fieldset style="text-align:left;">
-											<legend><b><a href="javascript:showContent('fileContentDiv')">File Content</a></b></legend>
-											<div id="fileContentDiv" style="display: block">
-											</div>
-										</fieldset>
+										<div id="fileContentDiv">
 										</div>
 										
 				        			</td>
