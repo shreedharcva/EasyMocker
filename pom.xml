@@ -4,12 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.sripathi</groupId>
 	<artifactId>webservicemocker</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<packaging>war</packaging>
 	<name>Web Service Mocker</name>
 	<description>SOAP based web service mocking utility</description>
 
-    <build>
+	<url>http://sourceforge.net/projects/easymocker</url>
+	<scm>
+		<developerConnection>Sripathi Acharya</developerConnection>
+	</scm>
+	<build>
         <plugins>
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -72,8 +76,14 @@
 
 		<dependency>
 			<groupId>bouncycastle</groupId>
-			<artifactId>bcmail-jdk15</artifactId>
+			<artifactId>bcprov-jdk15</artifactId>
 			<version>140</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcmail-jdk15</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -112,30 +122,38 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-activation_1.1_spec</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-stax-api_1.0_spec</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
 			<version>2.1.9</version>
+		    <exclusions>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jms</artifactId>
+					<groupId>javax.jms</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mail</artifactId>
+					<groupId>javax.mail</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jmxtools</artifactId>
+					<groupId>com.sun.jdmk</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jmxri</artifactId>
+					<groupId>com.sun.jmx</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-ssl</groupId>
@@ -187,13 +205,8 @@
 			<groupId>xerces</groupId>
 			<artifactId>xerces</artifactId>
 			<version>2.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml</groupId>
-			<artifactId>saaj-impl</artifactId>
-			<version>1.3</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-
-
 </project>

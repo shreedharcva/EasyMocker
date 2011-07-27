@@ -24,7 +24,7 @@ import net.sf.sripathi.ws.mock.util.SoapUIUtil;
 
 
 @XmlType(name="Operation", namespace="http://www.sripathi.sf.net/ws/mock",
-		propOrder={"name","keyElement","scenarioList", "templateMap"})
+		propOrder={"name","keyElement","scenarioList", "templateMap", "faultMap", "defaultGeneratedReq", "defaultGeneratedResp", "tagNames"})
 public class Operation implements Serializable {
 
 	/**
@@ -56,6 +56,22 @@ public class Operation implements Serializable {
 	 */
 	private HashMap<String, String> templateMap;
 	/**
+	 * Fault message map.
+	 */
+	private HashMap<String, String> faultMap;
+	/**
+	 * Generated request xml.
+	 */
+	private String defaultGeneratedReq;
+	/**
+	 * Generated response xml.
+	 */
+	private String defaultGeneratedResp;
+	/**
+	 * Tag names for the operation.
+	 */
+	private List<String> tagNames;
+	/**
 	 * Default constructor.
 	 */
 	public Operation() {
@@ -71,11 +87,15 @@ public class Operation implements Serializable {
 	/**
 	 * Overloaded constructor.
 	 * @param name operation name.
-	 * @param keyElement key element name.
+	 * @param wsdlUrl WSDL URL to load some details.
 	 */
-	public Operation(String name, String keyElement) {
+	public Operation(String name, String wsdlUrl) {
 		this.name = name.trim();
-		this.keyElement = keyElement.trim();
+		this.defaultGeneratedReq = SoapUIUtil.getDummyRequest(wsdlUrl, name);
+		this.defaultGeneratedResp = SoapUIUtil.getDummyResponse(wsdlUrl, name);
+		this.faultMap = SoapUIUtil.getDummyFaults(wsdlUrl, name);
+		this.tagNames = SoapUIUtil.getRequestElements(wsdlUrl, name);
+		this.addDefaultScenario(wsdlUrl);
 	}
 	
 	public String getName() {
@@ -114,7 +134,38 @@ public class Operation implements Serializable {
 	public void setTemplateMap(HashMap<String, String> templateMap) {
 		this.templateMap = templateMap;
 	}
-
+	
+	public HashMap<String, String> getFaultMap() {
+		if (this.faultMap == null) {
+			this.faultMap = new HashMap<String, String>();
+		}
+		return faultMap;
+	}
+	public void setFaultMap(HashMap<String, String> faultMap) {
+		this.faultMap = faultMap;
+	}
+	public String getDefaultGeneratedReq() {
+		return defaultGeneratedReq;
+	}
+	public void setDefaultGeneratedReq(String defaultGeneratedReq) {
+		this.defaultGeneratedReq = defaultGeneratedReq;
+	}
+	public String getDefaultGeneratedResp() {
+		return defaultGeneratedResp;
+	}
+	public void setDefaultGeneratedResp(String defaultGeneratedResp) {
+		this.defaultGeneratedResp = defaultGeneratedResp;
+	}
+	public List<String> getTagNames() {
+		if (this.tagNames == null) {
+			this.tagNames = new ArrayList<String>();
+		}
+		return tagNames;
+	}
+	public void setTagNames(List<String> tagNames) {
+		this.tagNames = tagNames;
+	}
+	
 	public void addDefaultScenario(String wsdlUrl) {
 		Scenario scenario = new Scenario();
 		scenario.setKey(DEFAULT_SCE_KEY);

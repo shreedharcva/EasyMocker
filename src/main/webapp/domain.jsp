@@ -10,6 +10,7 @@
  *  See the GNU Lesser General Public License for more details at gnu.org.
  *  -->
 
+<%@page import="org.apache.commons.io.IOUtils"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
@@ -105,22 +106,9 @@
                 response.setHeader("Content-Disposition",
                     "attachment;filename=" + domainName + ".xml");
                 
-                File file = new File(fileName);
-                FileInputStream fileIn = new FileInputStream(file);
-                ServletOutputStream outs = response.getOutputStream();
-
-                response.setContentLength((int) file.length());
-                
-                byte[] outputByte = new byte[4096];
-                //copy binary contect to output stream
-                int count = 0;
-                while((count = fileIn.read(outputByte)) != -1)
-                {
-                    outs.write(outputByte, 0, count);
-                }
-                fileIn.close();
-                outs.flush();
-                outs.close();
+                out.clear();
+                out.write(IOUtils.toString(new FileReader(new File(fileName))));
+                return;
 
             }
             else if ("importDomain".equals(action)) {

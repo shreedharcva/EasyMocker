@@ -272,7 +272,7 @@ public class SoapUIUtil {
 	 * @param operationName operation name.
 	 * @return map of fault messages.
 	 */
-	public static Map<String, String> getDummyFaults(String wsdlUrl, String operationName) {
+	public static HashMap<String, String> getDummyFaults(String wsdlUrl, String operationName) {
 		
 		WsdlInterface intf = loadWsdl(wsdlUrl);
 		
@@ -280,7 +280,7 @@ public class SoapUIUtil {
 		
 		FaultPart[] faultParts = operation.getFaultParts();
 		
-		Map<String, String> faultRespMap = new HashMap<String, String>();
+		HashMap<String, String> faultRespMap = new HashMap<String, String>();
 		
 		for (FaultPart faultPart : faultParts) {
 			String faultString = intf.getMessageBuilder().buildFault(faultPart);

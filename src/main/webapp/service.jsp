@@ -18,7 +18,6 @@
 <%@page import="net.sf.sripathi.ws.mock.DomainFactory"%>
 <%@page import="net.sf.sripathi.ws.mock.util.MockException"%>
 <%@page import="net.sf.sripathi.ws.mock.util.StringUtil"%>
-<%@page import="net.sf.sripathi.ws.mock.util.SoapUIUtil"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.io.*"%>
 <html>

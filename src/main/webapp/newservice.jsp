@@ -86,13 +86,6 @@
             	else {
             		try {
                			Service service = new Service(serviceName, wsdlUrl);
-               		
-               			for (String oprName : SoapUIUtil.getOperationList(wsdlUrl)) {
-               				Operation operation = new Operation(oprName);
-               				operation.addDefaultScenario(wsdlUrl);
-               				service.getOperationList().add(operation);
-               			}
-               		
                			domain.addService(service);
                			DomainFactory.getInstance().updateDomain(domain);
             		}

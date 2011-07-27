@@ -43,9 +43,10 @@
             String soapResp = "";
             
             if ("Load".equals(action)) {
+            	String serviceName = request.getParameter("serviceName");
             	String operationName = request.getParameter("operationName");
             	try {
-            		soapReq = SoapUIUtil.getDummyRequest(wsdlLocation, operationName);
+            		soapReq = DomainFactory.getInstance().getDomain(domainName).getService(serviceName).getOperation(operationName).getDefaultGeneratedReq();
             	} catch (Exception e) {
             		soapReq = "Unable to generate request soap";
             	}

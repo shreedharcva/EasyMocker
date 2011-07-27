@@ -19,7 +19,6 @@
 <%@page import="net.sf.sripathi.ws.mock.DomainFactory"%>
 <%@page import="net.sf.sripathi.ws.mock.util.MockException"%>
 <%@page import="net.sf.sripathi.ws.mock.util.StringUtil"%>
-<%@page import="net.sf.sripathi.ws.mock.util.SoapUIUtil"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.io.*"%>
 <html>
@@ -79,9 +78,9 @@
             			try {
             				if (StringUtil.isValid(service.getWsdlUrl())) {
 
-            					dummyResponse = SoapUIUtil.getDummyResponse(service.getWsdlUrl(), operationName);
-            					faultRespMap = SoapUIUtil.getDummyFaults(service.getWsdlUrl(), operationName);
-            					requestElements = SoapUIUtil.getRequestElements(service.getWsdlUrl(), operationName);
+            					dummyResponse = operation.getDefaultGeneratedResp();
+            					faultRespMap = operation.getFaultMap();
+            					requestElements = operation.getTagNames();
             				}
             			}
             			catch (Exception e) {
@@ -630,8 +629,9 @@
             	var endpointUrl = "<%=URLEncoder.encode(serviceEndpoint, "UTF-8") %>";
             	var wsdlLocation = "<%=URLEncoder.encode(service.getWsdlUrl(), "UTF-8") %>";
             	var operationName = "<%=URLEncoder.encode(operationName, "UTF-8") %>";
+            	var serviceName = "<%=URLEncoder.encode(serviceName, "UTF-8") %>";
             	
-            	window.location = 'testclient.jsp?action=Load&endpointUrl='+endpointUrl+'&wsdlLocation='+wsdlLocation+'&operationName='+operationName
+            	window.location = 'testclient.jsp?action=Load&endpointUrl='+endpointUrl+'&wsdlLocation='+wsdlLocation+'&operationName='+operationName+'&serviceName='+serviceName
             }
         </script>
     </head>
