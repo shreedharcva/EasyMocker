@@ -179,6 +179,10 @@ public class DomainFactory {
 		
 		return Folder.getInstance(workingDir + "/" + domain.getName());
 	}
+	
+	public String getWorkingDir() {
+		return this.workingDir;
+	}
 	/**
 	 * Exports the domain into XML file.
 	 * @param domainName domain name.
