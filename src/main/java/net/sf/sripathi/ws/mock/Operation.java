@@ -24,7 +24,7 @@ import net.sf.sripathi.ws.mock.util.SoapUIUtil;
 
 
 @XmlType(name="Operation", namespace="http://www.sripathi.sf.net/ws/mock",
-		propOrder={"name","keyElement","scenarioList", "templateMap", "faultMap", "defaultGeneratedReq", "defaultGeneratedResp", "tagNames"})
+		propOrder={"name","rootElement","keyElement","scenarioList", "templateMap", "faultMap", "defaultGeneratedReq", "defaultGeneratedResp", "tagNames"})
 public class Operation implements Serializable {
 
 	/**
@@ -43,6 +43,10 @@ public class Operation implements Serializable {
 	 * Operation name.
 	 */
 	private String name;
+	/**
+	 * Root element for the operation.
+	 */
+	private String rootElement;
 	/**
 	 * Key element for the operation.
 	 */
@@ -83,6 +87,7 @@ public class Operation implements Serializable {
 	 */
 	public Operation(String name) {
 		this.name = name.trim();
+		this.rootElement = name.trim();
 	}
 	/**
 	 * Overloaded constructor.
@@ -91,6 +96,7 @@ public class Operation implements Serializable {
 	 */
 	public Operation(String name, String wsdlUrl) {
 		this.name = name.trim();
+		this.rootElement = SoapUIUtil.getRootElementName(wsdlUrl, name);
 		this.defaultGeneratedReq = SoapUIUtil.getDummyRequest(wsdlUrl, name);
 		this.defaultGeneratedResp = SoapUIUtil.getDummyResponse(wsdlUrl, name);
 		this.faultMap = SoapUIUtil.getDummyFaults(wsdlUrl, name);
@@ -104,8 +110,16 @@ public class Operation implements Serializable {
 
 	public void setName(String name) {
 		this.name = name.trim();
+		if (this.rootElement == null) {
+			this.rootElement = this.name;
+		}
 	}
-
+	public String getRootElement() {
+		return this.rootElement;
+	}
+	public void setRootElement(String rootElement) {
+		this.rootElement = rootElement;
+	}
 	public String getKeyElement() {
 		return keyElement;
 	}
@@ -409,6 +423,7 @@ public class Operation implements Serializable {
 	    retValue = "Operation ( "
 	        + super.toString() + TAB
 	        + "name = " + this.name + TAB
+	        + "rootElement = " + this.rootElement + TAB
 	        + "keyElement = " + this.keyElement + TAB
 	        + "scenarioList = " + this.scenarioList + TAB
 	        + "templateMap = " + this.templateMap + TAB

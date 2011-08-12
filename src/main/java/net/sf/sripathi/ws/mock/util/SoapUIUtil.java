@@ -119,6 +119,9 @@ public class SoapUIUtil {
 		return intr;
 	}
 	
+	public void removeServiceCache(String wsdlUrl) {
+		intrMap.remove(wsdlUrl);
+	}
 	/**
 	 * Gets the service name for the WSDL.
 	 * @param wsdlUrl WSDL URL.
@@ -193,7 +196,7 @@ public class SoapUIUtil {
 
 		try {
 			for (int i=0;i<intf.getOperationCount();i++) {
-				operationList.add(intf.getOperationAt(i).getRequestBodyElementQName().getLocalPart());
+				operationList.add(intf.getOperationAt(i).getName());
 			}
 		} catch (Exception e) {
 			throw new MockException("Unable to import WSDL. " + e.getMessage());
@@ -367,6 +370,14 @@ public class SoapUIUtil {
 			errors.add("Line " + error.getLine() + ": " + error.getMessage());
 		}
 		return errors;
+	}
+	
+	public static String getRootElementName(String wsdlUrl, String operationName) {
+		try {
+			return getOperation(loadWsdl(wsdlUrl), operationName).getRequestBodyElementQName().getLocalPart();
+		} catch (Exception e) {
+			throw new MockException("Unable to import WSDL. " + e.getMessage());
+		}
 	}
 	
 	public static class MyResponse implements WsdlResponse {

@@ -63,7 +63,7 @@ public class Service implements Serializable {
 	public Service(String name, String wsdlUrl) {
 		this.name = name.trim();
 		this.wsdlUrl = wsdlUrl.trim();
-		
+		SoapUIUtil.forceUpdateWsdlUrl(wsdlUrl);
 		for (String oprName : SoapUIUtil.getOperationList(wsdlUrl)) {
 			Operation operation = new Operation(oprName, wsdlUrl);
 			this.getOperationList().add(operation);
@@ -181,7 +181,7 @@ public class Service implements Serializable {
 	public Operation getOperation(String operationName) {
 		
 		for (Operation operation : this.getOperationList()) {
-			if (operation.getName().equalsIgnoreCase(operationName)) {
+			if (operation.getRootElement().equalsIgnoreCase(operationName)) {
 				return operation;
 			}
 		}
