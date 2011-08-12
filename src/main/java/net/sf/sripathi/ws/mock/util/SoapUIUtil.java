@@ -153,7 +153,7 @@ public class SoapUIUtil {
 		if (operation == null) {
 			throw new MockException("Operation not found - " + operationName);
 		}
-		
+
 		return operation;
 	}
 	/**
@@ -190,9 +190,13 @@ public class SoapUIUtil {
 		WsdlInterface intf = loadWsdl(wsdlUrl);
 		
 		List<String> operationList = new ArrayList<String>();
-		
-		for (int i=0;i<intf.getOperationCount();i++) {
-			operationList.add(intf.getOperationAt(i).getName());
+
+		try {
+			for (int i=0;i<intf.getOperationCount();i++) {
+				operationList.add(intf.getOperationAt(i).getRequestBodyElementQName().getLocalPart());
+			}
+		} catch (Exception e) {
+			throw new MockException("Unable to import WSDL. " + e.getMessage());
 		}
 		
 		return operationList;
