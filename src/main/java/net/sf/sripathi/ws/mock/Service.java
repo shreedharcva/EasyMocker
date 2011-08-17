@@ -181,7 +181,7 @@ public class Service implements Serializable {
 	public Operation getOperation(String operationName) {
 		
 		for (Operation operation : this.getOperationList()) {
-			if (operation.getRootElement().equalsIgnoreCase(operationName)) {
+			if (operation.getName().equalsIgnoreCase(operationName)) {
 				return operation;
 			}
 		}
