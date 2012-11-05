@@ -60,9 +60,10 @@
             if ("updateWsdl".equals(action)) {
             	String wsdlUrl = request.getParameter("wsdlLocation");
                 String newServiceName = request.getParameter("newServiceName");
-            	
-            	if (!StringUtil.isValid(wsdlUrl) && !StringUtil.isValid(newServiceName)) {
-           			message = StringUtil.failureMsg("Provide Valid WSDL URL or Service Name to update");
+                boolean newSchemaVal = request.getParameter("newReqSchemaVal")==null?false:true;
+                
+            	if (newSchemaVal == service.isReqSchemaVal() && !StringUtil.isValid(wsdlUrl) && !StringUtil.isValid(newServiceName)) {
+           			message = StringUtil.failureMsg("Provide any one valid input");
             	}
             	else if (wsdlUrl.equals(service.getWsdlUrl())) {
             		message = StringUtil.failureMsg("Same as previously configured WSDL");
@@ -81,6 +82,9 @@
                         }
                         if (StringUtil.isValid(wsdlUrl)) {
                             service.updateWsdlUrl(wsdlUrl);
+                        }
+                        if (newSchemaVal != service.isReqSchemaVal()) {
+                        	service.setReqSchemaVal(newSchemaVal);
                         }
             			DomainFactory.getInstance().updateDomain(domain);
             			message = StringUtil.successMsg("Service Updated Successfully");
@@ -229,6 +233,14 @@
                                                     <td>
                                                         <input type="hidden" name="serviceName" value="<%=serviceName %>"/>
                                                         <input type="hidden" name="action" value="updateWsdl"/>
+                                                        <font face="arial" size="2"><b>Req Validation </b></font>
+                                                    </td>
+                                                    <td>
+                                                        <input name="newReqSchemaVal" type="checkbox" <%=service.isReqSchemaVal()?"checked='checked'":"" %>/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <font face="arial" size="2"><b>Service Name </b></font>
                                                     </td>
                                                     <td>

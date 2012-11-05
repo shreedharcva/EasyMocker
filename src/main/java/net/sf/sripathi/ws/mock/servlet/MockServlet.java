@@ -75,21 +75,21 @@ public class MockServlet extends HttpServlet {
 				req.getRequestURI().substring((req.getContextPath() + "/mock/").length());
 			String[] tmps = tmp.split("/");
 
-			if (tmps.length != 3)
-				SoapUtil.getSoapFault("NOT_A_VALID_URL", "URL " + req.getRequestURI() + " is not valid");
-			
 			String domainName = tmps[0];
-			String serviceName = tmps[2];
-			
+						
 			Domain domain = DomainFactory.getInstance().getDomain(domainName);
 			
 			String soapResp = null;
-			
-			if (domain == null) {
+			if (tmps.length != 3) {
+				soapResp = SoapUtil.getSoapFault("NOT_A_VALID_URL", "URL " + req.getRequestURI() + " is not valid");
+			}
+			else if (domain == null) {
 				soapResp = SoapUtil.getSoapFault("NOT_A_VALID_PROFILE", "Domain " + domainName + " is not valid");
 				LOGGER.error(soapResp);
 			}
 			else {
+				String serviceName = tmps[2];
+				
 				Service service = domain.getService(serviceName);
 			
 				if (service == null) {

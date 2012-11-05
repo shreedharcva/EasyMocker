@@ -24,7 +24,7 @@ import net.sf.sripathi.ws.mock.util.SoapUtil;
 
 
 @XmlType(name="Service", namespace="http://www.sripathi.sf.net/ws/mock",
-		propOrder={"name","wsdlUrl","operationList"})
+		propOrder={"name","wsdlUrl","reqSchemaVal","operationList"})
 public class Service implements Serializable {
 
 	/**
@@ -41,6 +41,11 @@ public class Service implements Serializable {
 	 * WSDL url.
 	 */
 	private String wsdlUrl;
+	
+	/**
+	 * True if schema validation is required.
+	 */
+	private boolean reqSchemaVal;
 	
 	/**
 	 * List of operations.
@@ -107,6 +112,20 @@ public class Service implements Serializable {
 	}
 
 	/**
+	 * @return the reqSchemaVal
+	 */
+	public boolean isReqSchemaVal() {
+		return reqSchemaVal;
+	}
+
+	/**
+	 * @param reqSchemaVal the reqSchemaVal to set
+	 */
+	public void setReqSchemaVal(boolean reqSchemaVal) {
+		this.reqSchemaVal = reqSchemaVal;
+	}
+
+	/**
 	 * Sets the operation list.
 	 * 
 	 * @param operationList list of operations.
@@ -144,6 +163,14 @@ public class Service implements Serializable {
 		
 		if (operation == null) {
 			throw new MockException("Operation " + operationName + " is not configured for service " + this.name);
+		}
+		
+		if (this.reqSchemaVal) {
+			List<String> errors = SoapUIUtil.validateRequest(wsdlUrl, operation.getName(), reqSoap);
+			
+			if (errors != null && errors.size() != 0) {
+				throw new MockException("Schema Validation failed. Errors " + errors);
+			}
 		}
 		
 		String keyElementValue = SoapUtil.getXmlElementTrimmedValue(reqSoap, operation.getKeyElement());

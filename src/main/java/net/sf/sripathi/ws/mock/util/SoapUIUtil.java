@@ -354,7 +354,43 @@ public class SoapUIUtil {
 		
 		return errorList;
 	}
-	
+	/**
+	 * Validates the request SOAP message against the WSDL.
+	 * @param wsdlUrl WSDL URL.
+	 * @param operationName operation name.
+	 * @param request request SOAP message.
+	 * 
+	 * @return list of error messages if any. 
+	 */
+	public static List<String> validateRequest(String wsdlUrl, String operationName, String request) {
+		
+		WsdlInterface intf = loadWsdl(wsdlUrl);
+		
+		WsdlOperation operation = intf.getOperationByName(operationName);
+		
+		if (operation == null) {
+			throw new MockException("Operation " + operationName + " not found.");
+		}
+		
+		WsdlRequest req = operation.addNewRequest("something");
+		req.setRequestContent(request);
+		WsdlValidator validator = new WsdlValidator(intf.getWsdlContext());
+		
+		List<String> errorList = new ArrayList<String>();
+		
+		try {
+			AssertionError[] errors = validator.assertRequest(new WsdlResponseMessageExchange(req), false);
+			
+			for (AssertionError error : errors) {
+				errorList.add(error.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MockException("Unable to validate the message.");
+		}
+		
+		return errorList;
+	}
 	/**
 	 * Validates the XML structure.
 	 * @param xml input xml.
@@ -458,5 +494,19 @@ public class SoapUIUtil {
 		public WsdlRequest getRequest() {
 			return null;
 		}
+	}
+	
+	public static void main(String[] args) {
+		
+		String req = SoapUIUtil.getDummyRequest(
+				"http://localhost:8080/webservicemocker-0.0.6/workspace/default/interface/crm/up/service/AddIdentityAlias/1.0/AddIdentityAlias.wsdl",
+				"addIdentityAlias");
+		System.out.println(req);
+		List<String> errs = SoapUIUtil.validateRequest(
+				"http://localhost:8080/webservicemocker-0.0.6/workspace/default/interface/sample-service.wsdl",
+				"buy",
+				req);
+		
+		System.out.println(errs);
 	}
 }
