@@ -140,7 +140,7 @@ public class Service implements Serializable {
 			throw new MockException("Unable to find operation.");
 		}
 		
-		Operation operation = this.getOperation(operationName);
+		Operation operation = this.getOperationByRootElement(operationName);
 		
 		if (operation == null) {
 			throw new MockException("Operation " + operationName + " is not configured for service " + this.name);
@@ -188,6 +188,25 @@ public class Service implements Serializable {
 		
 		return null;
 	}
+	
+	/**
+	 * Gets the operation for the service using the root element name.
+	 * 
+	 * @param operationName operation name string.
+	 *  
+	 * @return instance of Operation.
+	 */
+	public Operation getOperationByRootElement(String rootElement) {
+		
+		for (Operation operation : this.getOperationList()) {
+			if (operation.getRootElement().equalsIgnoreCase(rootElement)) {
+				return operation;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	/**
 	 * Deletes the operation for the service using the operation name.

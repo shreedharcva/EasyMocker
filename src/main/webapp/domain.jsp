@@ -152,7 +152,7 @@
             else if ("mergeDomain".equals(action)) {
                 try {
                     
-               	 	File file = new File(application.getInitParameter("stub.workspace") + "/" + request.getParameter("domainFileName"));
+               	 	File file = new File(application.getRealPath("/workspace") + "/" + request.getParameter("domainFileName"));
                	  	
                     domain = DomainFactory.getInstance().importDomain(file, true);
                     domainName = domain.getName();
@@ -364,8 +364,8 @@
 		                    		You are currently using <b><%=domainName %></b> workspace. The system does not store information on file/DB, it is advisable to
                                     export your workspace on timely basis as backup.
                                     <br><br>
-                                    <input type="button" onclick='javascript:exportDomain()' name='expDom' value="Export this domain"/>
-                                    <input type="button" onclick='javascript:deleteDomain("<%=domainName %>")' name='delDom' value="Delete this domain"/>
+                                    <input type="button" onclick='javascript:exportDomain()' name='expDom' value="Export this workspace"/>
+                                    <input type="button" onclick='javascript:deleteDomain("<%=domainName %>")' name='delDom' value="Delete this workspace"/>
 		                    		<%
 		                    		}
 		                    		%>

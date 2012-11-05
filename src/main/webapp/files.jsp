@@ -125,7 +125,7 @@
 					},
 					success: function(resp) {
 						resp = resp.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
-						respSpan.innerHTML = str + "<input type='button' value='Download File' onclick='javascript:downloadFile(\"" + name1 + "\")' \><input type='button' value='Delete File' onclick='javascript:deleteFile(\"" + encodeURI(name1) + "\")' /><br><pre class='prettyprint lang-xml' style='overflow:auto; overflow-x:auto; overflow-y:auto; width: 740px; height: 396px;'>" + resp + "</pre>";
+						respSpan.innerHTML = str + "<input type='button' value='Download File' onclick='javascript:downloadFile(\"" + name1 + "\")' \><input type='button' value='Delete File' onclick='javascript:deleteFile(\"" + encodeURI(name1) + "\")' /><br><pre class='prettyprint lang-xml' style='overflow:auto; overflow-x:auto; overflow-y:auto; width: 740px; height: 432px;'>" + resp + "</pre>";
 						prettyPrint();
 					}
             	});
