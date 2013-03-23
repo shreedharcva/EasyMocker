@@ -63,8 +63,15 @@ public final class SoapUtil {
 	public static String getOperationName(String soapRequest) {
 		
 		try {
+			MessageFactory messageFactory;
+			if (soapRequest.contains( javax.xml.soap.SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE )){
+				messageFactory = MessageFactory.newInstance(javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL);
+			}
+			else{
+				messageFactory = MessageFactory.newInstance();		      
+			}
 			SOAPMessage msg =
-				MessageFactory.newInstance().createMessage(
+				messageFactory.createMessage(
 					null, new ByteArrayInputStream(soapRequest.getBytes()));
 			Node n = (Node) msg.getSOAPBody();
 			
