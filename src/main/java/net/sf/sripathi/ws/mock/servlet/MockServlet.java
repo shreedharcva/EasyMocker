@@ -80,6 +80,7 @@ public class MockServlet extends HttpServlet {
 			Domain domain = DomainFactory.getInstance().getDomain(domainName);
 			
 			String soapResp = null;
+			String soapReq = "";
 			if (tmps.length != 3) {
 				soapResp = SoapUtil.getSoapFault("NOT_A_VALID_URL", "URL " + req.getRequestURI() + " is not valid");
 			}
@@ -100,7 +101,7 @@ public class MockServlet extends HttpServlet {
 					LOGGER.info("Request received for service - " + serviceName + " on domain - " + domainName);
 					InputStream is = req.getInputStream();
 					
-					String soapReq = new String(IOUtils.toByteArray(is));
+					soapReq = new String(IOUtils.toByteArray(is));
 					
 					this.getLogger(domainName,serviceName).info("Request - " + soapReq);
 					try {
@@ -122,7 +123,11 @@ public class MockServlet extends HttpServlet {
 				}
 			}
 			
-			resp.setContentType("text/xml");
+			if (soapReq.contains(  javax.xml.soap.SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE  )){
+			    resp.setContentType( javax.xml.soap.SOAPConstants.SOAP_1_2_CONTENT_TYPE );			   
+			}else{
+			    resp.setContentType( javax.xml.soap.SOAPConstants.SOAP_1_1_CONTENT_TYPE );			   
+			}
 			
 			if (soapResp != null
 				&& soapResp.indexOf("Fault>") != -1
