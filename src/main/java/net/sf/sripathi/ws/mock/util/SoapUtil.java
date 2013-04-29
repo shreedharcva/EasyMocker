@@ -99,34 +99,38 @@ public final class SoapUtil {
      * 
      * @return a string value of XML element.
      */
-    public static String getXmlElementValue(String xml, String element) {
-        
-        //Search for the element
-        int startInd = xml.indexOf("<" + element);
-        if (startInd == -1) {
-            //Element not found
-            return null;
-        }
+	public static String getXmlElementValue(String xml, String element) {
 
-        //Search for the end for the element. This is because of the name space
-        startInd = xml.indexOf('>', startInd);
-        if (startInd == -1) {
-            //Element end not found
-            return null;
-        }
-        
-        //Find the closing element
-        int endInd = xml.indexOf("</" + element);
-        if (endInd == -1 || endInd <= startInd) {
-            //This could be an empty element
-            return null;
-        }
-        
-        //Element found. Return its value
-        return xml.substring(startInd + 1, endInd);
-        
-    }
+	    //Search for the element with name space
+	    int startInd = xml.indexOf(":" + element + ">");
+	    if (startInd == -1) {
+	        //Element with name space not found
+	        startInd = xml.indexOf("<" + element + ">");
 
+	        //Element not found
+	        if(startInd == -1){
+	            return null;
+	        }
+	    }
+	    //Search for the end for the element. This is because of the name space
+	    startInd = xml.indexOf('>', startInd);
+	    if (startInd == -1) {
+	        //Element end not found
+	        return null;
+	    }
+
+	    //Find the closing element
+	    int endInd = xml.indexOf("</", startInd);
+	    if (endInd == -1 || endInd <= startInd) {
+	        //This could be an empty element
+	        return null;
+	    }
+
+	    //Element found. Return its value
+	    return xml.substring(startInd + 1, endInd);
+
+	}
+	
     /**
      * Gets the element value (trimmed) from the input XML for the provided
      * element name.
