@@ -233,14 +233,6 @@
                                                     <td>
                                                         <input type="hidden" name="serviceName" value="<%=serviceName %>"/>
                                                         <input type="hidden" name="action" value="updateWsdl"/>
-                                                        <font face="arial" size="2"><b>Req Validation </b></font>
-                                                    </td>
-                                                    <td>
-                                                        <input name="newReqSchemaVal" type="checkbox" <%=service.isReqSchemaVal()?"checked='checked'":"" %>/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
                                                         <font face="arial" size="2"><b>Service Name </b></font>
                                                     </td>
                                                     <td>
@@ -253,6 +245,14 @@
                                                     </td>
                                                     <td>
                                                         <input name="wsdlLocation" size="50" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <font face="arial" size="2"><b>Options </b></font>
+                                                    </td>
+                                                    <td>
+                                                        <input name="newReqSchemaVal" type="checkbox" <%=service.isReqSchemaVal()?"checked='checked'":"" %>/>&nbsp;Validate SOAP request against WSDL</font>
                                                     </td>
                                                 </tr>
                                                 <tr>

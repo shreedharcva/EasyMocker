@@ -41,6 +41,7 @@
             String operationName = null;
             String defaultResp = null;
             String wsdlUrl = null;
+            boolean reqSchemaVal = true;
             Domain domain = 
                 DomainFactory.getInstance().getDomain(domainName);
 
@@ -50,7 +51,9 @@
             	wsdlUrl = request.getParameter("wsdlUrl");
             	
             	String nameType = request.getParameter("nameType");
-            	
+                if (request.getParameter("reqSchemaVal") == null) {
+                    reqSchemaVal = false;
+                }
             	if (nameType != null && nameType.equals("generate")) {
 
             		try {
@@ -86,6 +89,7 @@
             	else {
             		try {
                			Service service = new Service(serviceName, wsdlUrl);
+                        service.setReqSchemaVal(reqSchemaVal);
                			domain.addService(service);
                			DomainFactory.getInstance().updateDomain(domain);
             		}
@@ -236,6 +240,7 @@
                     		document.forms[0].serviceName.value = sname;
                     		document.getElementById("serviceNameRow").style.display = "";
                     		document.getElementById("serviceSubmitRow").style.display = "";
+                            document.getElementById("serviceOptionRow").style.display = "";
                     		document.getElementById("serviceLoadSpan").style.display = "none";
                     	}
                   		else {
@@ -253,6 +258,7 @@
             	if ("addService" == a) {
             		document.getElementById("serviceNameRow").style.display = "";
             		document.getElementById("serviceSubmitRow").style.display = "";
+                    document.getElementById("serviceOptionRow").style.display = "";
             		document.getElementById("serviceLoadSpan").style.display = "none";
             	}
             }
@@ -309,8 +315,16 @@
 													</tr>
 													<tr style="display: none" id="serviceNameRow">
 														<td><font face="arial" size="2"><b>Name</b></font></td>
-														<td><input name="serviceName" size="40" <%=serviceName!=null?"value='"+serviceName+"'":"" %>/></td>
+														<td>
+                                                            <input name="serviceName" size="40" <%=serviceName!=null?"value='"+serviceName+"'":"" %>/>
+                                                        </td>
 													</tr>
+													<tr style="display: none" id="serviceOptionRow">
+														<td><font face="arial" size="2"><b>Options</b></font></td>
+														<td>
+                                                            <input name="reqSchemaVal" type="checkbox" checked="checked" /><font face="arial" size="2">&nbsp;Validate SOAP request against WSDL</font>
+                                                        </td>
+													</tr>  
 													<tr style="display: none" id="serviceSubmitRow">
 														<td/>
 														<td><input type="submit" value="Import"></td>
