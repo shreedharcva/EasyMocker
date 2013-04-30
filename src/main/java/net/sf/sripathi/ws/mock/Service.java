@@ -68,10 +68,12 @@ public class Service implements Serializable {
 	public Service(String name, String wsdlUrl) {
 		this.name = name.trim();
 		this.wsdlUrl = wsdlUrl.trim();
-		SoapUIUtil.forceUpdateWsdlUrl(wsdlUrl);
-		for (String oprName : SoapUIUtil.getOperationList(wsdlUrl)) {
-			Operation operation = new Operation(oprName, wsdlUrl);
-			this.getOperationList().add(operation);
+		if (this.wsdlUrl.length() > 0) {
+    		SoapUIUtil.forceUpdateWsdlUrl(wsdlUrl);
+    		for (String oprName : SoapUIUtil.getOperationList(wsdlUrl)) {
+    			Operation operation = new Operation(oprName, wsdlUrl);
+    			this.getOperationList().add(operation);
+    		}
 		}
 	}
 
