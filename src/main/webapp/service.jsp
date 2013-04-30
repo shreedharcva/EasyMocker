@@ -247,6 +247,7 @@
                                                         <input name="wsdlLocation" size="50" />
                                                     </td>
                                                 </tr>
+                                                <% if (StringUtil.isValid(service.getWsdlUrl())) { %>
                                                 <tr>
                                                     <td>
                                                         <font face="arial" size="2"><b>Options </b></font>
@@ -255,6 +256,7 @@
                                                         <input name="newReqSchemaVal" type="checkbox" <%=service.isReqSchemaVal()?"checked='checked'":"" %>/>&nbsp;Validate SOAP request against WSDL</font>
                                                     </td>
                                                 </tr>
+                                                <% } %>
                                                 <tr>
                                                     <td></td>
                                                     <td>
