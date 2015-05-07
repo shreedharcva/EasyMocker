@@ -281,7 +281,6 @@ public class Folder implements Comparable<Folder> {
 	    return retValue;
 	}
 
-	@Override
 	public int compareTo(Folder o) {
 		return this.path.compareTo(o.path);
 	}

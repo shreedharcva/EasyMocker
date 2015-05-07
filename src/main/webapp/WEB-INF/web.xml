@@ -4,11 +4,16 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-  
+
   <session-config>
   	<session-timeout>300</session-timeout>
   </session-config>
-  
+<!--
+  <context-param>
+    <param-name>WORKSPACE_DIR</param-name>
+    <param-value>C:/webservicemocker/workspace</param-value>
+  </context-param>
+-->  
   <servlet>
     <servlet-name>MockServlet</servlet-name>
     <servlet-class>net.sf.sripathi.ws.mock.servlet.MockServlet</servlet-class>

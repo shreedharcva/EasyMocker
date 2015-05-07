@@ -119,7 +119,7 @@
 
                 	FileItem fileItem = (FileItem) servletFileUpload.parseRequest(request).get(0);
 
-               	 	File file = new File(application.getRealPath("/workspace") + "/" + fileItem.getName());
+               	 	File file = new File(DomainFactory.getInstance().getWorkingDir() + "/" + fileItem.getName());
                	 	fileItem.write(file);
                	  	String fileName = URLEncoder.encode(file.getName(), "UTF-8");
                     domain = DomainFactory.getInstance().importDomain(file, false);
@@ -152,7 +152,7 @@
             else if ("mergeDomain".equals(action)) {
                 try {
                     
-               	 	File file = new File(application.getRealPath("/workspace") + "/" + request.getParameter("domainFileName"));
+               	 	File file = new File(DomainFactory.getInstance().getWorkingDir() + "/" + request.getParameter("domainFileName"));
                	  	
                     domain = DomainFactory.getInstance().importDomain(file, true);
                     domainName = domain.getName();

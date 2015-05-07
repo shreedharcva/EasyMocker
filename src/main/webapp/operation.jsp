@@ -340,9 +340,9 @@
             function validateSchema(area, respSpan)
             {
             	var url = "messagevalidation.jsp";
-            	var params = "wsdlUrl=" + encodeURI("<%=service.getWsdlUrl().replaceAll("\\\\","\\\\\\\\") %>")
-           				+ "&operationName=" + encodeURI("<%=operationName %>")
-            			+ "&response=" + encodeURI(area.value);
+            	var params = "wsdlUrl=" + encodeURIComponent("<%=service.getWsdlUrl().replaceAll("\\\\","\\\\\\\\") %>")
+           				+ "&operationName=" + encodeURIComponent("<%=operationName %>")
+            			+ "&response=" + encodeURIComponent(area.value);
             	if (window.XMLHttpRequest)
               	{// code for IE7+, Firefox, Chrome, Opera, Safari
               		xmlhttp=new XMLHttpRequest();
@@ -371,7 +371,7 @@
             function validateXml(area, respSpan)
             {
             	var url = "messagevalidation.jsp";
-            	var params = "response=" + encodeURI(area.value);
+            	var params = "response=" + encodeURIComponent(area.value);
             	if (window.XMLHttpRequest)
               	{// code for IE7+, Firefox, Chrome, Opera, Safari
               		xmlhttp=new XMLHttpRequest();
@@ -399,17 +399,17 @@
             }
             function updateMock(scenarioKey, newKay, newDelay, newResp, respSpan)
             {
-            	var serviceName = encodeURI("<%=serviceName %>");
-            	var operationName = encodeURI("<%=operationName %>");
+            	var serviceName = encodeURIComponent("<%=serviceName %>");
+            	var operationName = encodeURIComponent("<%=operationName %>");
 
             	var url = "ajaxfulfill.jsp";
             	
             	var params = "action=updateMock&serviceName=" + serviceName
             			+ "&operationName=" + operationName
-            			+ "&scenarioKey=" +  encodeURI(scenarioKey)
-            			+ "&mockResponse=" +  encodeURI(newResp.value)
-            			+ "&delayInMillisec=" +  encodeURI(newDelay.value)
-            			+ "&newKeyElementValue=" +  encodeURI(newKay.value);
+            			+ "&scenarioKey=" +  encodeURIComponent(scenarioKey)
+            			+ "&mockResponse=" +  encodeURIComponent(newResp.value)
+            			+ "&delayInMillisec=" +  encodeURIComponent(newDelay.value)
+            			+ "&newKeyElementValue=" +  encodeURIComponent(newKay.value);
 
             	if (window.XMLHttpRequest)
               	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -439,14 +439,14 @@
             }
             function updateDefaultMock(newDelay, newResp, respSpan)
             {
-            	var serviceName = encodeURI("<%=serviceName %>");
-            	var operationName = encodeURI("<%=operationName %>");
+            	var serviceName = encodeURIComponent("<%=serviceName %>");
+            	var operationName = encodeURIComponent("<%=operationName %>");
 
             	var url = "ajaxfulfill.jsp";
             	var params = "action=updateDefaultMock&serviceName=" + serviceName
         			+ "&operationName=" + operationName
-        			+ "&defaultMockResponse=" +  encodeURI(newResp.value)
-        			+ "&delayInMillisec=" +  encodeURI(newDelay.value);
+        			+ "&defaultMockResponse=" +  encodeURIComponent(newResp.value)
+        			+ "&delayInMillisec=" +  encodeURIComponent(newDelay.value);
 
             	if (window.XMLHttpRequest)
               	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -475,14 +475,14 @@
             }
             function updateTemplate(templateName, template, respSpan)
             {
-            	var serviceName = encodeURI("<%=serviceName %>");
-            	var operationName = encodeURI("<%=operationName %>");
+            	var serviceName = encodeURIComponent("<%=serviceName %>");
+            	var operationName = encodeURIComponent("<%=operationName %>");
 
             	var url = "ajaxfulfill.jsp";
             	var params = "action=updateTemplate&serviceName=" + serviceName
             			+ "&operationName=" + operationName
             			+ "&templateName=" +  templateName
-            			+ "&newTemplate=" +  encodeURI(template.value);
+            			+ "&newTemplate=" +  encodeURIComponent(template.value);
 
             	if (window.XMLHttpRequest)
               	{// code for IE7+, Firefox, Chrome, Opera, Safari

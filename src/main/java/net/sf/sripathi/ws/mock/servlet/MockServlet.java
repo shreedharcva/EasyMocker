@@ -12,6 +12,7 @@
 
 package net.sf.sripathi.ws.mock.servlet;
 
+import java.io.File;
 import java.io.InputStream;
 
 import javax.servlet.ServletException;
@@ -25,6 +26,7 @@ import net.sf.sripathi.ws.mock.Scenario;
 import net.sf.sripathi.ws.mock.Service;
 import net.sf.sripathi.ws.mock.util.MockException;
 import net.sf.sripathi.ws.mock.util.SoapUtil;
+import net.sf.sripathi.ws.mock.util.StringUtil;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -35,12 +37,18 @@ import org.apache.log4j.RollingFileAppender;
 public class MockServlet extends HttpServlet {
 
 	/**
-	 * 
+	 * Default serial id.
 	 */
 	private static final long serialVersionUID = 3275583196562906368L;
 	
-	private String workingDirectory = "";
+	/**
+	 * Path to working directory for the mocker
+	 */
+	private String workingDirectory = null;
 	
+	/**
+	 * Log4j logger instance
+	 */
 	private Logger LOGGER = Logger.getLogger(MockServlet.class); 
 	
 	/**
@@ -49,7 +57,23 @@ public class MockServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		workingDirectory = getServletContext().getRealPath("/workspace").replace('\\', '/');
+		
+		//Check if there is a valid workspace set configured in the init param
+	    workingDirectory =
+            super.getServletContext().getInitParameter("WORKSPACE_DIR");
+	    
+	    //If init param is not set use default
+	    if (!StringUtil.isValid(workingDirectory)) {
+	    	workingDirectory = getServletContext().getRealPath("/workspace");
+	    }
+		
+		workingDirectory = workingDirectory.replace('\\', '/');
+		
+		if (!new File(workingDirectory).exists()) {
+			throw new ServletException("Unable to access specified path - " + workingDirectory + ". If workspace"
+					+ " is specified in web.xml please make sure the specified folder exists and access is provided.");
+		}
+		
 		DomainFactory.getInstance().setWorkingDir(workingDirectory);
 		
 		try {

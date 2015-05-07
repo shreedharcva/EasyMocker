@@ -47,7 +47,7 @@
             	logFile = "Mock.log";
             }
             
-            String logLocation = application.getRealPath("/workspace") + "/" + logFile;
+            String logLocation = DomainFactory.getInstance().getWorkingDir() + "/" + logFile;
             String log = "";
             int buffer = 2048;
             long fileSize = 0;
